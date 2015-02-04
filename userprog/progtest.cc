@@ -86,10 +86,38 @@ ConsoleTest (char *in, char *out)
     for (;;)
       {
 	  readAvail->P ();	// wait for character to arrive
+      // #ifdef CHANGED
+      // char bb ='<';
+      // console->PutChar(bb);
+      // #endif //CHANGE
 	  ch = console->GetChar ();
+      #ifdef CHANGED
+      if (ch != '\n')       
+      {
+        console->PutChar('<');
+        writeDone->P();
+      }
+      
+      #endif //CHANGED
 	  console->PutChar (ch);	// echo it!
 	  writeDone->P ();	// wait for write to finish
+
+      #ifdef CHANGED
+      if (ch != '\n')       
+      {
+        console->PutChar('>');
+        writeDone->P();
+      }
+      
+      #endif //CHANGED
+      #ifdef CHANGED
+      if (ch == EOF)
+      {
+          return;
+      }
+      #endif //CHANGED
 	  if (ch == 'q')
 	      return;		// if q, quit
       }
+      
 }

@@ -15,6 +15,14 @@
 int
 main ()
 {
+	#ifdef CHANGED
+	int sum =1000;
+	int i=0;
+	for(i = 0; i < 100; ++i)
+	{
+		sum *=i;	
+	}
+	#endif //CHANGED
     Halt ();
 
     /* not reached */
