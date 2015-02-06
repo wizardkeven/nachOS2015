@@ -91,7 +91,14 @@ ConsoleTest (char *in, char *out)
       // console->PutChar(bb);
       // #endif //CHANGE
 	  ch = console->GetChar ();
-      #ifdef CHANGED
+    
+    #ifdef CHANGED
+
+      if (ch == EOF)
+      {
+        return;
+      }
+
       if (ch != '\n')       
       {
         console->PutChar('<');
@@ -110,14 +117,13 @@ ConsoleTest (char *in, char *out)
       }
       
       #endif //CHANGED
-      #ifdef CHANGED
-      if (ch == EOF)
-      {
-          return;
-      }
-      #endif //CHANGED
+
 	  if (ch == 'q')
-	      return;		// if q, quit
+    {
+      console->PutChar('\n');
+      return;   // if q, quit
+    }
+	      
       }
       
 }
