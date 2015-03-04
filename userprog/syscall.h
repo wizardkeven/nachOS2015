@@ -12,7 +12,6 @@
 
 #ifndef SYSCALLS_H
 #define SYSCALLS_H
-
 #include "copyright.h"
 
 /* system call codes -- used by the stubs to tell the kernel which system call
@@ -29,6 +28,12 @@
 #define SC_Close	8
 #define SC_Fork		9
 #define SC_Yield	10
+
+//etape 2 define pour affichage putchar et putstring
+#ifdef CHANGED 
+#define SC_PutChar  11
+#endif //CHANGED
+
 
 #ifdef IN_USER_MODE
 
@@ -127,6 +132,10 @@ void Fork (void (*func) ());
  * or not. 
  */
 void Yield ();
+
+#ifdef CHANGED
+void PutChar(char c);
+#endif //CHANGED
 
 #endif // IN_USER_MODE
 

@@ -14,6 +14,10 @@
 #include "addrspace.h"
 #include "synch.h"
 
+#ifdef CHANGED
+#include "synchconsole.h"
+#endif //CHANGED
+
 //----------------------------------------------------------------------
 // StartProcess
 //      Run a user program.  Open the executable, load it into
@@ -127,3 +131,23 @@ ConsoleTest (char *in, char *out)
       }
       
 }
+
+//----------------------------------------------------------------------
+// SynchConsoleTest
+//      Test the synchrone console by echoing characters typed at the input onto
+//      the output.  Stop when the user types a 'q'.
+//----------------------------------------------------------------------
+#ifdef CHANGED
+void
+SynchConsoleTest (char *in, char *out)
+{
+  char ch;
+  delete synchconsole;
+  synchconsole = new SynchConsole(in, out);
+  while ((ch = synchconsole->SynchGetChar()) != EOF){
+    synchconsole->SynchPutChar(ch);
+  }
+  
+  fprintf(stderr, "Solaris: EOF detected in SynchConsole!\n");
+}
+#endif //CHANGED

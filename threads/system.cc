@@ -31,6 +31,13 @@ SynchDisk *synchDisk;
 Machine *machine;		// user program memory and registers
 #endif
 
+#ifdef CHANGED
+#ifdef USER_PROGRAM
+SynchConsole *synchconsole;
+#endif //CHANGED
+#endif
+
+
 #ifdef NETWORK
 PostOffice *postOffice;
 #endif
@@ -159,6 +166,14 @@ Initialize (int argc, char **argv)
     machine = new Machine (debugUserProg);	// this must come first
 #endif
 
+//
+#ifdef CHANGED
+    // Obligatoire pour ne pas avoir de bug à l'utilisation de filesys
+    if(!format){
+    	synchconsole = new SynchConsole(NULL,NULL);
+    }
+#endif //CHANGED
+
 #ifdef FILESYS
     synchDisk = new SynchDisk ("DISK");
 #endif
@@ -187,6 +202,10 @@ Cleanup ()
 #ifdef USER_PROGRAM
     delete machine;
 #endif
+
+#ifdef CHANGED
+    delete synchconsole;
+#endif //CHANGED
 
 #ifdef FILESYS_NEEDED
     delete fileSystem;
