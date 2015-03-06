@@ -33,6 +33,7 @@ Machine *machine;		// user program memory and registers
 
 #ifdef CHANGED
 #ifdef USER_PROGRAM
+Machine *machine;
 SynchConsole *synchconsole;
 #endif //CHANGED
 #endif

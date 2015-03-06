@@ -68,14 +68,15 @@ void
 ExceptionHandler (ExceptionType which)
 {
     int type = machine->ReadRegister (2);
-    
     #ifndef CHANGED // Noter le if*n*def
-    if ((which == SyscallException) && (type == SC_Halt)) {DEBUG(65// Obligatoire pour ne pas avoir de bug à l'utilisation de filesys, "Shutdown, initiated by user program.\n");
+    if ((which == SyscallException) && (type == SC_Halt)) {
+    DEBUG('a', "Shutdown, initiated by user program.\n");// Obligatoire pour ne pas avoir de bug à l'utilisation de filesys
       interrupt->Halt();
     } else {
       printf("Unexpected user mode exception %d %d\n", which, type);
       ASSERT(FALSE);
     }
+    UpdatePC();
     #else // CHANGED
 
     if (which == SyscallException)
@@ -109,7 +110,7 @@ ExceptionHandler (ExceptionType which)
    //    }
 
     // LB: Do not forget to increment the pc before returning!
-    UpdatePC ();
+    UpdatePC();
     // End of addition
       #endif // CHANGED
 }
