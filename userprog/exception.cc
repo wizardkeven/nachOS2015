@@ -25,6 +25,49 @@
 #include "system.h"
 #include "syscall.h"
 
+
+
+//-----------------------------------------------------------------------
+// copyStringFromMachine : use for PutString
+//-----------------------------------------------------------------------
+
+#ifdef CHANGED
+void copyStringFromMachine(int from, char *to, unsigned size)
+{
+  unsigned i = 0;
+  int tmp;
+  for(i = 0; i < size ; i++){
+    if(machine->ReadMem(from + i, 1, &tmp))
+    to[i]=tmp;
+  }
+  //si le message ne se fini pas par '\0'...
+  if(i<size && tmp != '\0'){
+    to[size-1] = '\0';
+  }
+}
+#endif // CHANGED
+
+
+//-----------------------------------------------------------------------
+// copyStringToMachine : use for GetString, fonction pratiquement 
+// identique
+//-----------------------------------------------------------------------
+
+#ifdef CHANGED
+void copyStringToMachine(char *from, int to, unsigned int size)
+{
+  int tmp;
+  unsigned int i;
+  for(i = 0; i < size - 1; i++){
+    tmp = from[i];
+    machine->WriteMem(to + i, 1, tmp);
+  }
+  tmp = '\0';
+  machine->WriteMem(to + i, 1, tmp);
+}
+#endif // CHANGED
+
+
 //----------------------------------------------------------------------
 // UpdatePC : Increments the Program Counter register in order to resume
 // the user program immediately after the "syscall" instruction.
@@ -76,7 +119,7 @@ ExceptionHandler (ExceptionType which)
       printf("Unexpected user mode exception %d %d\n", which, type);
       ASSERT(FALSE);
     }
-    UpdatePC();
+    UpdatePC();//
     #else // CHANGED
 
     if (which == SyscallException)
@@ -92,6 +135,40 @@ ExceptionHandler (ExceptionType which)
                                                   // fonction appele
             synchconsole->SynchPutChar((char) lecture); //Afficher cet argement
 
+            break;
+          }
+          case SC_SynchPutString: {
+            char *buffer = new char[MAX_STRING_SIZE]; 
+            int recup = machine->ReadRegister(4);
+            copyStringFromMachine(recup, buffer, MAX_STRING_SIZE);
+            synchconsole->SynchPutString(buffer);
+            delete [] buffer;
+            break;
+          }
+          case SC_SynchGetChar: {
+            char recup = synchconsole->SynchGetChar();
+            machine->WriteRegister(2, (int)recup);
+            break;
+          }
+          case SC_SynchGetString: {
+            char *buffer = new char[MAX_STRING_SIZE];
+            int recup = machine->ReadRegister(4);
+            int taille = machine->ReadRegister(5);
+            synchconsole->SynchGetString(buffer, taille);
+            copyStringToMachine(buffer, recup, taille);
+            delete buffer;
+            break;
+          }
+          case SC_SynchPutInt: {
+            int recup = machine->ReadRegister(4);
+            synchconsole->SynchPutInt(recup);
+            break;
+          }
+          case SC_SynchGetInt: {
+            int *recup = new int;
+            *recup = machine->ReadRegister(4);
+            synchconsole->SynchGetInt(recup);
+            delete recup;
             break;
           }
           default:{

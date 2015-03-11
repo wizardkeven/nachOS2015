@@ -29,9 +29,15 @@
 #define SC_Fork		9
 #define SC_Yield	10
 
-//etape 2 define pour affichage putchar et putstring
+//etape 2 define pour affichage
 #ifdef CHANGED 
 #define SC_PutChar  11
+#define SC_SynchPutString 12
+#define SC_SynchGetChar 13
+#define SC_SynchGetString 14
+// #define SC_SynchPutChar 15
+#define SC_SynchPutInt 15
+#define SC_SynchGetInt 16
 #endif //CHANGED
 
 
@@ -134,7 +140,14 @@ void Fork (void (*func) ());
 void Yield ();
 
 #ifdef CHANGED
+//STEP 2 DISPLAY
 void PutChar(char c);
+char SynchGetChar();
+char SynchGetStringChar();
+void SynchPutString(const char *s);
+void SynchGetString(char *s, int n);
+void SynchPutInt( int n);
+void SynchGetInt( int *n);
 #endif //CHANGED
 
 #endif // IN_USER_MODE

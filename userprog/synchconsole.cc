@@ -36,21 +36,73 @@ SynchConsole::~SynchConsole()
 
 void SynchConsole::SynchPutChar(const char ch)
 {
+	semaphorePutChar->P();
+	console->PutChar(ch);
+	writeDone->P();
+	semaphorePutChar->V();
 	
 }
 
 char SynchConsole::SynchGetChar()
 {
-// ...
+	semaphoreGetChar->P();
+	char c;
+	readAvail->P();
+	c=console->GetChar();
+	semaphoreGetChar->V();
+	return c;
 }
 
 void SynchConsole::SynchPutString(const char s[])
 {
-// ...
+	semaphorePutString->P();
+
+	int i;
+	for (i = 0; i< MAX_STRING_SIZE && s[i] !='\n' ; i++)		
+	{
+		synchconsole->SynchPutChar((char)s[i]);
+	}
+	synchconsole->SynchPutChar('\n');
+
+	semaphorePutString->V();
 }
 
 void SynchConsole::SynchGetString(char *s, int n)
 {
-// ...
+	semaphoreGetString->P();
+
+	int i;
+	char c;
+	for(i=0; i<n-1; i++){
+		c=synchconsole->SynchGetChar();
+		if (c == EOF || c == '\n')	
+		{
+			break;
+		}else{
+			s[i]=c;
+		}
+		s[i]='\n';
+		semaphoreGetString->V();
+
+	}
+}
+void SynchConsole::SynchPutInt( int n)
+{
+	char *s = new char[MAX_STRING_SIZE];
+	snprintf(s, MAX_STRING_SIZE,"%d", n);
+	synchconsole->SynchPutString(s);
+
+	delete []s;
+
+}
+
+void SynchConsole::SynchGetInt( int *n)
+{
+	int retour; // entiers
+	char *con = new char[12];
+	SynchGetString(con,12);
+	sscanf(con,"%d",&retour);
+	machine->WriteMem(*n,4,retour);
+	delete [] con;
 }
 #endif // CHANGED

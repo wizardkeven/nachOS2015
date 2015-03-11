@@ -27,16 +27,20 @@ FileSystem *fileSystem;
 SynchDisk *synchDisk;
 #endif
 
+#ifndef CHANGED
+
 #ifdef USER_PROGRAM		// requires either FILESYS or FILESYS_STUB
 Machine *machine;		// user program memory and registers
 #endif
 
-#ifdef CHANGED
+#else //CHANGED
+
 #ifdef USER_PROGRAM
 Machine *machine;
 SynchConsole *synchconsole;
-#endif //CHANGED
-#endif
+#endif 
+
+#endif//CHANGED
 
 
 #ifdef NETWORK
@@ -92,9 +96,20 @@ Initialize (int argc, char **argv)
 #ifdef USER_PROGRAM
     bool debugUserProg = FALSE;	// single step user program
 #endif
+#ifndef CHANGED
+
 #ifdef FILESYS_NEEDED
     bool format = FALSE;	// format disk
 #endif
+
+#else //CHANGED
+
+#ifdef FILESYS_NEEDED
+    bool format = FALSE;    // format disk
+#endif
+    
+#endif //CHANGED
+
 #ifdef NETWORK
     double rely = 1;		// network reliability
     int netname = 0;		// UNIX socket name
