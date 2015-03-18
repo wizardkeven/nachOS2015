@@ -31,13 +31,13 @@
 
 //etape 2 define pour affichage
 #ifdef CHANGED 
-#define SC_PutChar  11
+#define SC_PutChar 11
 #define SC_SynchPutString 12
 #define SC_SynchGetChar 13
 #define SC_SynchGetString 14
-// #define SC_SynchPutChar 15
 #define SC_SynchPutInt 15
 #define SC_SynchGetInt 16
+#define SC_SynchPutChar 17
 #endif //CHANGED
 
 
@@ -142,11 +142,12 @@ void Yield ();
 #ifdef CHANGED
 //STEP 2 DISPLAY
 void PutChar(char c);
+void SynchPutChar(const char c);
 char SynchGetChar();
-char SynchGetStringChar();
+// char SynchGetStringChar();
 void SynchPutString(const char *s);
 void SynchGetString(char *s, int n);
-void SynchPutInt( int n);
+void SynchPutInt( int );
 void SynchGetInt( int *n);
 #endif //CHANGED
 

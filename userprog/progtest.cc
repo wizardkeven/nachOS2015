@@ -82,7 +82,9 @@ void
 ConsoleTest (char *in, char *out)
 {
     char ch;
-
+    #ifdef CHANGED
+    delete synchconsole;
+    #endif //CHANGED
     console = new Console (in, out, ReadAvail, WriteDone, 0);
     readAvail = new Semaphore ("read avail", 0);
     writeDone = new Semaphore ("write done", 0);
@@ -100,7 +102,10 @@ ConsoleTest (char *in, char *out)
 
       if (ch == EOF)
       {
-        return;
+        #ifdef CHANGED
+        synchconsole = new SynchConsole(NULL,NULL);
+        break;
+        #endif //CHANGED
       }
 
       if (ch != '\n')       

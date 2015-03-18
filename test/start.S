@@ -136,6 +136,54 @@ PutChar:
 	syscall
 	j 	$31
 	.end PutChar
+
+	.globl SynchPutString
+	.ent 	SynchPutString
+SynchPutString:
+	addiu $2,$12,SC_SynchPutString
+	syscall
+	j 	$31
+	.end SynchPutString
+
+	.globl SynchGetChar
+	.ent 	SynchGetChar
+SynchGetChar:
+	addiu $2,$13,SC_SynchGetChar
+	syscall
+	j 	$31
+	.end SynchGetChar
+
+	.globl SynchGetString
+	.ent 	SynchGetString
+SynchGetString:
+	addiu $2,$14,SC_SynchGetString
+	syscall
+	j 	$31
+	.end SynchGetString
+
+	.globl SynchPutInt
+	.ent 	SynchPutInt
+SynchPutInt:
+	addiu $2,$15,SC_SynchPutInt
+	syscall
+	j 	$31
+	.end SynchPutInt
+
+	.globl SynchGetInt
+	.ent 	SynchGetInt
+SynchGetInt:
+	addiu $2,$16,SC_SynchGetInt
+	syscall
+	j 	$31
+	.end SynchGetInt
+
+	.globl SynchPutChar
+	.ent 	SynchPutCharSynchPutChar
+SynchPutChar:
+	addiu $2,$17,SC_SynchPutChar
+	syscall
+	j 	$31
+	.end SynchPutChar
 	
 /* dummy function to keep gcc happy */
         .globl  __main

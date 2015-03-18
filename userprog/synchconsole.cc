@@ -58,7 +58,7 @@ void SynchConsole::SynchPutString(const char s[])
 	semaphorePutString->P();
 
 	int i;
-	for (i = 0; i< MAX_STRING_SIZE && s[i] !='\n' ; i++)		
+	for (i = 0; i< MAX_STRING_SIZE && s[i] !='\0' ; i++)		
 	{
 		synchconsole->SynchPutChar((char)s[i]);
 	}
@@ -81,11 +81,37 @@ void SynchConsole::SynchGetString(char *s, int n)
 		}else{
 			s[i]=c;
 		}
-		s[i]='\n';
-		semaphoreGetString->V();
+		
 
 	}
+	s[i]='\n';
+	semaphoreGetString->V();
 }
+
+// void SynchConsole::SynchPutInt(int n)
+// {
+	
+// 	char *s = new char[MAX_STRING_SIZE];
+// 	snprintf(s, MAX_STRING_SIZE, "%d", n);
+// 	synchconsole->SynchPutString(s);
+
+// 	delete [] s;
+	
+// }
+
+// void SynchConsole::SynchGetInt( int *n)
+// {
+	
+// 	int retour;
+// 	// On travail sur des entiers...
+// 	char *conversion = new char[12];
+// 	SynchGetString(conversion, 12);
+// 	sscanf(conversion, "%d", &retour);
+// 	machine->WriteMem(*n, 4, retour);
+// 	delete [] conversion;
+	
+// }
+
 void SynchConsole::SynchPutInt( int n)
 {
 	char *s = new char[MAX_STRING_SIZE];
@@ -103,6 +129,6 @@ void SynchConsole::SynchGetInt( int *n)
 	SynchGetString(con,12);
 	sscanf(con,"%d",&retour);
 	machine->WriteMem(*n,4,retour);
-	delete [] con;
+	delete []con;
 }
 #endif // CHANGED

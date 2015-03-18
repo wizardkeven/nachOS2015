@@ -126,11 +126,17 @@ ExceptionHandler (ExceptionType which)
       {
         switch(type){
 
-          case SC_Halt:{DEBUG ('a', "Shutdown, initiated by user program.\n");
+          case SC_Halt:{
+            DEBUG ('a', "Shutdown, initiated by user program.\n");
             interrupt->Halt ();
             break;
           }
-          case SC_PutChar:{
+          case SC_Exit:{
+            DEBUG('a', "Exit by user thread.");
+            interrupt->Halt();
+            break;
+          }
+          case SC_SynchPutChar:{
             int lecture = machine->ReadRegister(4);//Lire le registre 4 qui contient l'argument de la
                                                   // fonction appele
             synchconsole->SynchPutChar((char) lecture); //Afficher cet argement
@@ -141,6 +147,7 @@ ExceptionHandler (ExceptionType which)
             char *buffer = new char[MAX_STRING_SIZE]; 
             int recup = machine->ReadRegister(4);
             copyStringFromMachine(recup, buffer, MAX_STRING_SIZE);
+            // printf("SynchPutString %s\n", buffer);
             synchconsole->SynchPutString(buffer);
             delete [] buffer;
             break;

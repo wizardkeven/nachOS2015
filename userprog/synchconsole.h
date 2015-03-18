@@ -13,7 +13,7 @@ class SynchConsole {
 		
 		void SynchPutChar(const char ch);// Unix putchar(3S)
 		char SynchGetChar();//
-		char SynchGetStringChar();// Unix getchar(3S)
+		// char SynchGetStringChar();// Unix getchar(3S)
 
 		
 		
