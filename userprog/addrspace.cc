@@ -120,6 +120,33 @@ AddrSpace::AddrSpace (OpenFile * executable)
 			      noffH.initData.size, noffH.initData.inFileAddr);
       }
 
+    #ifdef CHANGED
+    nbT = 1; // le main
+
+    DEBUG('z', "Initialisation de nbT : %d\n", nbT);
+
+
+
+    semT = new Semaphore("nbT", 1); // Le problème du nombre de thread qui s'incrémentait mal
+                                              // venait d'ici
+    semBM = new Semaphore("BitMap", 1); // Semaphore pour la Bitmap également
+
+    // initialisation du semJoin
+    for (int j = 0; j<(UserStackSize/MAX_PAGE_THREADS) ; j++) {
+        this->semJoin[j] = new Semaphore("Semaphore Join", 1);
+    }
+
+
+    bitmap = new BitMap(UserStackSize/(MAX_PAGE_THREADS * PageSize));
+    //printf("taille de la BitMap : %d\n", (UserStackSize/(MAX_PAGE_THREADS * PageSize)) - 1);
+    bitmap->Mark(0); // ne pas oublier le premier thread, le main
+
+    semA = new Semaphore("Attente", 0); //Semaphore pour attendre la fin des autres threads
+    
+
+    liberation = false;
+    #endif //CHANGED
+
 }
 
 //----------------------------------------------------------------------
@@ -195,3 +222,74 @@ AddrSpace::RestoreState ()
     machine->pageTable = pageTable;
     machine->pageTableSize = numPages;
 }
+
+#ifdef CHANGED
+
+int 
+AddrSpace::InitRegistersU(int *threadId)
+{
+    int startStack = numPages*PageSize;
+    int ren = -1;
+    semBM->P();
+
+    if (*threadId != -1)
+    {
+        ren = startStack - (PageSize*MAX_PAGE_THREADS*(*threadId));
+    }
+    semBM->V();
+    return ren;
+}
+
+void 
+AddrSpace::deleteThread()
+{
+    semT->P();
+    semBM->P();
+    nbT--;
+    bitmap->Clear(currentThread->id);//Suppression du thread de la bitmap
+    if(nbT ==0)
+    {
+        semA->V(); //nous n'avons plus aucun autre thread que le thread principal, on peut donc l'arreter
+    }
+    semBM->V();
+    semT->V();
+}
+
+// lors de l'ajout d'un thread
+void
+AddrSpace::addThread()
+{
+    semT->P();
+    nbT++;
+    semT->V();
+}
+
+void
+AddrSpace::verificationEnd ()
+{
+    DEBUG('z', "VerificationEnd\n");
+    
+    semT->P();
+    nbT--;
+    semT->V();
+
+    DEBUG('z', "Milieu VerificationEnd, nbT restant : %d\n", nbT);
+
+    if(nbT != 0){
+        // on doit bloquer le thread principal
+        semA->P();
+    }
+    DEBUG('z', "Fin VerificationEnd\n");
+}
+
+//récupération de l'id
+
+int
+AddrSpace::getID()
+{
+    return bitmap->Find();
+}
+
+
+
+#endif //CHANGED

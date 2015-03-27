@@ -89,6 +89,33 @@ Thread::~Thread ()
 //      "arg" is a single argument to be passed to the procedure.
 //----------------------------------------------------------------------
 
+#ifdef CHANGED
+void
+Thread::ForkProcess (VoidFunctionPtr func, int arg)
+{
+  DEBUG ('t', "Forking thread \"%s\" with func = 0x%x, arg = %d\n",
+    name, (int) func, arg);
+  StackAllocate (func, arg);
+
+  #ifdef USER_PROGRAM
+
+    // LB: The addrspace should be tramsitted here, instead of later in
+    // StartProcess, so that the pageTable can be restored at
+    // launching time. This is crucial if the thread is launched with
+    // an already running program, as in the "fork" Unix system call. 
+    
+    // LB: Observe that currentThread->space may be NULL at that time.
+    //this->space = space;
+
+  #endif // USER_PROGRAM
+
+  IntStatus oldLevel = interrupt->SetLevel (IntOff);
+  scheduler->ReadyToRun (this); // ReadyToRun assumes that interrupts 
+    // are disabled!
+  (void) interrupt->SetLevel (oldLevel);
+}
+#endif //CHANGED
+
 void
 Thread::Fork (VoidFunctionPtr func, int arg)
 {

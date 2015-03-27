@@ -22,8 +22,12 @@
 // of liability and disclaimer of warranty provisions.
 
 #include "copyright.h"
+#ifdef CHANGED
+#include "thread.h"
+#endif
 #include "synch.h"
 #include "system.h"
+
 
 //----------------------------------------------------------------------
 // Semaphore::Semaphore

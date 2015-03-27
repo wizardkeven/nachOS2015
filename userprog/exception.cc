@@ -25,6 +25,9 @@
 #include "system.h"
 #include "syscall.h"
 
+#ifdef CHANGED
+#include "userthread.h"
+#endif //CHANGED
 
 
 //-----------------------------------------------------------------------
@@ -133,7 +136,17 @@ ExceptionHandler (ExceptionType which)
           }
           case SC_Exit:{
             DEBUG('a', "Exit by user thread.");
-            interrupt->Halt();
+            // interrupt->Halt();
+            currentThread->space->verificationEnd();
+            machine->MaJProcess(-1);
+            DEBUG('z', "Nb de process restants : %d\n", machine->GetProcess());
+            DEBUG('z', "Verif nb process.\n");
+            if(machine->GetProcess() > 0)
+            {
+              DEBUG('z', "Plus d'un process.\n");
+              currentThread->space->liberation = true;
+              currentThread->Finish();
+            }
             break;
           }
           case SC_SynchPutChar:{
@@ -176,6 +189,18 @@ ExceptionHandler (ExceptionType which)
             *recup = machine->ReadRegister(4);
             synchconsole->SynchGetInt(recup);
             delete recup;
+            break;
+          }
+          case SC_UserThreadCreate: {
+            do_UserThreadCreate((int)machine->ReadRegister(4), (int)machine->ReadRegister(5));
+            break;
+          }
+          case SC_UserThreadExit: {
+            do_UserThreadExit();
+            break;
+          }
+          case SC_UserThreadJoin: {
+            do_UserThreadJoin((int)machine->ReadRegister(4));
             break;
           }
           default:{

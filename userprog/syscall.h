@@ -31,13 +31,18 @@
 
 //etape 2 define pour affichage
 #ifdef CHANGED 
-#define SC_PutChar 11
-#define SC_SynchPutString 12
-#define SC_SynchGetChar 13
-#define SC_SynchGetString 14
-#define SC_SynchPutInt 15
-#define SC_SynchGetInt 16
-#define SC_SynchPutChar 17
+#define SC_PutChar 			11
+#define SC_SynchPutString 	12
+#define SC_SynchGetChar 	13
+#define SC_SynchGetString 	14
+#define SC_SynchPutInt 		15
+#define SC_SynchGetInt 		16
+#define SC_SynchPutChar 	17
+ //etape 3 for userthread system call
+ #define SC_UserThreadCreate	18
+ #define SC_UserThreadExit 	19
+ #define SC_UserThreadJoin 	20
+ #define SC_ForkExec 		21
 #endif //CHANGED
 
 
@@ -144,11 +149,16 @@ void Yield ();
 void PutChar(char c);
 void SynchPutChar(const char c);
 char SynchGetChar();
-// char SynchGetStringChar();
+
 void SynchPutString(const char *s);
 void SynchGetString(char *s, int n);
 void SynchPutInt( int );
 void SynchGetInt( int *n);
+// STEP 3 USERTHREAD
+void StartUserThread(int f);
+int UserThreadCreate(void *f, void *arg);
+void UserThreadExit();
+void UserThreadJoin(int i);
 #endif //CHANGED
 
 #endif // IN_USER_MODE

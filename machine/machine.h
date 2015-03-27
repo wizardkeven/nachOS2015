@@ -26,6 +26,10 @@
 #include "translate.h"
 #include "disk.h"
 
+#ifdef CHANGED
+#include "synch.h"
+#endif //CHANGED
+
 // Definitions related to the size, and format of user memory
 
 #define PageSize 	SectorSize 	// set the page size equal to
@@ -146,6 +150,12 @@ class Machine {
     void Debugger();		// invoke the user program debugger
     void DumpState();		// print the user CPU and memory state 
 
+    #ifdef CHANGED
+    void MaJProcess(int n);
+    int GetProcess();
+
+    Semaphore *semP;
+    #endif //CHANGED
 
 // Data structures -- all of these are accessible to Nachos kernel code.
 // "public" for convenience.
@@ -183,6 +193,9 @@ class Machine {
     unsigned int pageTableSize;
 
   private:
+    #ifdef CHANGED
+    int nbProcess;
+    #endif //CHANGED
     bool singleStep;		// drop back into the debugger after each
 				// simulated instruction
     int runUntilTime;		// drop back into the debugger when simulated

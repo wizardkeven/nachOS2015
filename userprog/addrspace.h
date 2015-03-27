@@ -13,10 +13,20 @@
 #ifndef ADDRSPACE_H
 #define ADDRSPACE_H
 
+#ifdef CHANGED
+#define MAX_PAGE_THREADS 3 //nombre max de pages par threads thread
+#endif // CHANGED
+
 #include "copyright.h"
 #include "filesys.h"
 
-#define UserStackSize		1024	// increase this as necessary!
+#ifdef CHANGED
+#include "synch.h"
+#include "bitmap.h"
+
+#endif //CHANGED
+
+#define UserStackSize		2048	// increase this as necessary!
 
 class AddrSpace
 {
@@ -25,18 +35,44 @@ class AddrSpace
     // initializing it with the program
     // stored in the file "executable"
     ~AddrSpace ();		// De-allocate an address space
-
+    #ifdef CHANGED
+    Semaphore *semJoin[UserStackSize/MAX_PAGE_THREADS];
+    #endif //CHANGED
     void InitRegisters ();	// Initialize user-level CPU registers,
     // before jumping to user code
+
+    #ifdef CHANGED
+    int InitRegistersU(int *threadId); // InitRegister mais pour UserThread (complément de fonction)
+    void deleteThread(); //suppression d'un thread
+    void addThread(); //ajout d'un thread
+     
+    
+    #endif // CHANGED
 
     void SaveState ();		// Save/restore address space-specific
     void RestoreState ();	// info on a context switch 
 
+    #ifdef CHANGED
+
+    void verificationEnd();
+    int getID();//get the id of currently-running thread from the bitmap
+    bool liberation;
+
+    #endif //CHANGED
   private:
       TranslationEntry * pageTable;	// Assume linear page table translation
     // for now!
     unsigned int numPages;	// Number of pages in the virtual 
     // address space
+
+    #ifdef CHANGED
+    Semaphore *semT;
+    Semaphore *semBM;
+    Semaphore *semA;
+
+    int nbT;
+    BitMap *bitmap;
+    #endif //CHANGED
 };
 
 #endif // ADDRSPACE_H

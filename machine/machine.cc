@@ -71,6 +71,11 @@ Machine::Machine(bool debug)
     pageTable = NULL;
 #endif
 
+    #ifdef CHANGED
+    semP = new Semaphore("process", 0);
+    nbProcess = 1;
+    #endif //CHANGED
+    
     singleStep = debug;
     CheckEndian();
 }
@@ -218,3 +223,15 @@ void Machine::WriteRegister(int num, int value)
 	registers[num] = value;
     }
 
+#ifdef CHANGED
+void Machine::MaJProcess(int n)
+{
+    nbProcess = nbProcess + n;
+}
+
+int Machine::GetProcess()
+{
+    return nbProcess;
+}
+
+#endif //CHANGED

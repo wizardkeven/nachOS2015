@@ -89,9 +89,15 @@ class Thread
     // must not be running when delete 
     // is called
 
+    #ifdef CHANGED
+    int id; // l'id du thread dans la bitmap
+    int tid; // l'id du thread en lui même
+    #endif //CHANGED
+
     // basic thread operations
 
     void Fork (VoidFunctionPtr func, int arg);	// Make thread run (*func)(arg)
+    void ForkProcess (VoidFunctionPtr func, int arg);
     void Yield ();		// Relinquish the CPU if any 
     // other thread is runnable
     void Sleep ();		// Put the thread to sleep and 
