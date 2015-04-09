@@ -7,7 +7,8 @@ step2-mipssim.o: ../machine/mipssim.cc ../threads/copyright.h \
  ../filesys/filesys.h ../filesys/openfile.h ../userprog/bitmap.h \
  ../filesys/openfile.h ../threads/scheduler.h ../machine/interrupt.h \
  ../threads/list.h ../machine/stats.h ../machine/timer.h \
- ../userprog/synchconsole.h ../machine/console.h
+ ../userprog/synchconsole.h ../machine/console.h \
+ ../userprog/frameprovider.h
  ../machine/mipssim.cc ../threads/copyright.h \
  ../machine/machine.h ../threads/utility.h ../threads/copyright.h \
  ../threads/bool.h ../machine/sysdep.h ../machine/translate.h \
@@ -17,4 +18,5 @@ step2-mipssim.o: ../machine/mipssim.cc ../threads/copyright.h \
  ../filesys/filesys.h ../filesys/openfile.h ../userprog/bitmap.h \
  ../filesys/openfile.h ../threads/scheduler.h ../machine/interrupt.h \
  ../threads/list.h ../machine/stats.h ../machine/timer.h \
- ../userprog/synchconsole.h ../machine/console.h:
+ ../userprog/synchconsole.h ../machine/console.h \
+ ../userprog/frameprovider.h:

@@ -7,7 +7,8 @@ step2-exception.o: ../userprog/exception.cc ../threads/copyright.h \
  ../userprog/bitmap.h ../filesys/openfile.h ../threads/scheduler.h \
  ../machine/interrupt.h ../threads/list.h ../machine/stats.h \
  ../machine/timer.h ../userprog/synchconsole.h ../machine/console.h \
- ../userprog/syscall.h ../userprog/userthread.h
+ ../userprog/frameprovider.h ../userprog/syscall.h \
+ ../userprog/userthread.h
  ../userprog/exception.cc ../threads/copyright.h \
  ../threads/system.h ../threads/copyright.h ../threads/utility.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/thread.h \
@@ -17,4 +18,5 @@ step2-exception.o: ../userprog/exception.cc ../threads/copyright.h \
  ../userprog/bitmap.h ../filesys/openfile.h ../threads/scheduler.h \
  ../machine/interrupt.h ../threads/list.h ../machine/stats.h \
  ../machine/timer.h ../userprog/synchconsole.h ../machine/console.h \
- ../userprog/syscall.h ../userprog/userthread.h:
+ ../userprog/frameprovider.h ../userprog/syscall.h \
+ ../userprog/userthread.h:

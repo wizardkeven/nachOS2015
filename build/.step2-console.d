@@ -7,7 +7,7 @@ step2-console.o: ../machine/console.cc ../threads/copyright.h \
  ../filesys/openfile.h ../userprog/bitmap.h ../filesys/openfile.h \
  ../threads/scheduler.h ../machine/interrupt.h ../threads/list.h \
  ../machine/stats.h ../machine/timer.h ../userprog/synchconsole.h \
- ../machine/console.h
+ ../machine/console.h ../userprog/frameprovider.h
  ../machine/console.cc ../threads/copyright.h \
  ../machine/console.h ../threads/utility.h ../threads/copyright.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/system.h \
@@ -17,4 +17,4 @@ step2-console.o: ../machine/console.cc ../threads/copyright.h \
  ../filesys/openfile.h ../userprog/bitmap.h ../filesys/openfile.h \
  ../threads/scheduler.h ../machine/interrupt.h ../threads/list.h \
  ../machine/stats.h ../machine/timer.h ../userprog/synchconsole.h \
- ../machine/console.h:
+ ../machine/console.h ../userprog/frameprovider.h:

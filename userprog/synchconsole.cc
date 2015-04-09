@@ -88,29 +88,6 @@ void SynchConsole::SynchGetString(char *s, int n)
 	semaphoreGetString->V();
 }
 
-// void SynchConsole::SynchPutInt(int n)
-// {
-	
-// 	char *s = new char[MAX_STRING_SIZE];
-// 	snprintf(s, MAX_STRING_SIZE, "%d", n);
-// 	synchconsole->SynchPutString(s);
-
-// 	delete [] s;
-	
-// }
-
-// void SynchConsole::SynchGetInt( int *n)
-// {
-	
-// 	int retour;
-// 	// On travail sur des entiers...
-// 	char *conversion = new char[12];
-// 	SynchGetString(conversion, 12);
-// 	sscanf(conversion, "%d", &retour);
-// 	machine->WriteMem(*n, 4, retour);
-// 	delete [] conversion;
-	
-// }
 
 void SynchConsole::SynchPutInt( int n)
 {

@@ -38,6 +38,7 @@ Machine *machine;		// user program memory and registers
 #ifdef USER_PROGRAM
 Machine *machine;
 SynchConsole *synchconsole;
+FrameProvider *frameProvider;
 #endif 
 
 #endif//CHANGED
@@ -188,6 +189,7 @@ Initialize (int argc, char **argv)
     if(!format){
     	synchconsole = new SynchConsole(NULL,NULL);
     }
+    frameProvider = new FrameProvider(NumPhysPages);
 #endif //CHANGED
 
 #ifdef FILESYS
@@ -221,6 +223,7 @@ Cleanup ()
 
 #ifdef CHANGED
     delete synchconsole;
+    delete frameProvider;
 #endif //CHANGED
 
 #ifdef FILESYS_NEEDED

@@ -39,8 +39,10 @@ extern Machine *machine;	// user program memory and registers
 #ifdef USER_PROGRAM
 #include "machine.h"
 #include "synchconsole.h"
+#include "frameprovider.h"
 extern Machine *machine;	// user program memory and registers
 extern SynchConsole *synchconsole; 
+extern FrameProvider *frameProvider;
 #define MAX_STRING_SIZE 70
 #endif
 #endif //CHANGED

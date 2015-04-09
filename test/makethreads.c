@@ -21,9 +21,14 @@ int main()
 {
 
 	int t1, t2;
+	int t3,t4,t5,t6;
+
 	t1 = UserThreadCreate(print,(void *) 7);
 	t2 = UserThreadCreate(print,(void *) 8);
-
+	t3 = UserThreadCreate(print,(void *) 7);
+	t4 = UserThreadCreate(print,(void *) 8);
+	t5 = UserThreadCreate(print,(void *) 7);
+	t6 = UserThreadCreate(print,(void *) 8);
 	SynchPutString("Je suis le thread principal");
 	
 

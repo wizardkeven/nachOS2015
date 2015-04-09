@@ -7,7 +7,7 @@ step2-timer.o: ../machine/timer.cc ../threads/copyright.h \
  ../filesys/openfile.h ../userprog/bitmap.h ../filesys/openfile.h \
  ../threads/scheduler.h ../machine/interrupt.h ../threads/list.h \
  ../machine/stats.h ../machine/timer.h ../userprog/synchconsole.h \
- ../machine/console.h
+ ../machine/console.h ../userprog/frameprovider.h
  ../machine/timer.cc ../threads/copyright.h \
  ../machine/timer.h ../threads/utility.h ../threads/copyright.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/system.h \
@@ -17,4 +17,4 @@ step2-timer.o: ../machine/timer.cc ../threads/copyright.h \
  ../filesys/openfile.h ../userprog/bitmap.h ../filesys/openfile.h \
  ../threads/scheduler.h ../machine/interrupt.h ../threads/list.h \
  ../machine/stats.h ../machine/timer.h ../userprog/synchconsole.h \
- ../machine/console.h:
+ ../machine/console.h ../userprog/frameprovider.h:

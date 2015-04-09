@@ -7,7 +7,7 @@ step2-sysdep.o: ../machine/sysdep.cc ../threads/copyright.h \
  ../filesys/filesys.h ../filesys/openfile.h ../userprog/bitmap.h \
  ../filesys/openfile.h ../threads/scheduler.h ../machine/interrupt.h \
  ../machine/stats.h ../machine/timer.h ../userprog/synchconsole.h \
- ../machine/console.h
+ ../machine/console.h ../userprog/frameprovider.h
  ../machine/sysdep.cc ../threads/copyright.h \
  ../machine/interrupt.h ../threads/list.h ../threads/copyright.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
@@ -17,4 +17,4 @@ step2-sysdep.o: ../machine/sysdep.cc ../threads/copyright.h \
  ../filesys/filesys.h ../filesys/openfile.h ../userprog/bitmap.h \
  ../filesys/openfile.h ../threads/scheduler.h ../machine/interrupt.h \
  ../machine/stats.h ../machine/timer.h ../userprog/synchconsole.h \
- ../machine/console.h:
+ ../machine/console.h ../userprog/frameprovider.h:

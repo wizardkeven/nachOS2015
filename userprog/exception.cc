@@ -135,7 +135,7 @@ ExceptionHandler (ExceptionType which)
             break;
           }
           case SC_Exit:{
-            DEBUG('a', "Exit by user thread.");
+            DEBUG('z', "Fin d'un thread.");
             // interrupt->Halt();
             currentThread->space->verificationEnd();
             machine->MaJProcess(-1);

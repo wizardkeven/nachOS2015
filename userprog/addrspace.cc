@@ -22,6 +22,35 @@
 
 #include <strings.h>		/* for bzero */
 
+#ifdef CHANGED
+#include "frameprovider.h"
+static void
+ReadAtVirtual(OpenFile *executable,int virtualaddr,int numBytes, int position
+    ,TranslationEntry *pageTable,unsigned numPages)
+{
+    //Get the previous values for restoring
+    TranslationEntry *ex_pageT = machine->pageTable;
+    unsigned ex_numP = machine->pageTableSize;
+
+    //write the values 
+    machine->pageTable = pageTable;
+    machine->pageTableSize = numPages;
+    char buffer[numBytes];
+
+    int rec =executable->ReadAt(buffer,numBytes,position);
+    int i =0;
+
+    for (i = 0; i < rec; i++)
+    {
+        machine->WriteMem(virtualaddr+i, 1, buffer[i]); //Write to the virtual memory
+    }
+
+    //restore the values
+    machine->pageTable = ex_pageT;
+    machine->pageTableSize = ex_numP;
+}
+#endif //CHANGED
+
 //----------------------------------------------------------------------
 // SwapHeader
 //      Do little endian to big endian conversion on the bytes in the 
@@ -89,7 +118,18 @@ AddrSpace::AddrSpace (OpenFile * executable)
     for (i = 0; i < numPages; i++)
       {
 	  pageTable[i].virtualPage = i;	// for now, virtual page # = phys page #
-	  pageTable[i].physicalPage = i;
+   //  #ifdef CHANGED
+	  // pageTable[i].physicalPage = i+1; //decalage de mémoire par i+1
+   //    #else 
+   //    pageTable[i].physicalPage = i;
+   //    #endif //CHANGED
+      #ifdef CHANGED
+      if(frameProvider->NumAvailFrame() != 0){
+        pageTable[i].physicalPage = frameProvider->GetEmptyFrames();
+      }else{
+        printf("Erreur page alloue echu.\n");
+      }
+      #endif //CHANGED
 	  pageTable[i].valid = TRUE;
 	  pageTable[i].use = FALSE;
 	  pageTable[i].dirty = FALSE;
@@ -107,17 +147,27 @@ AddrSpace::AddrSpace (OpenFile * executable)
       {
 	  DEBUG ('a', "Initializing code segment, at 0x%x, size %d\n",
 		 noffH.code.virtualAddr, noffH.code.size);
+
+      #ifdef CHANGED
+      ReadAtVirtual(executable, noffH.code.virtualAddr,noffH.code.size,noffH.code.inFileAddr
+        ,pageTable,numPages);
+      #else 
 	  executable->ReadAt (&(machine->mainMemory[noffH.code.virtualAddr]),
 			      noffH.code.size, noffH.code.inFileAddr);
+      #endif //CHANGED
       }
     if (noffH.initData.size > 0)
       {
 	  DEBUG ('a', "Initializing data segment, at 0x%x, size %d\n",
 		 noffH.initData.virtualAddr, noffH.initData.size);
-	  executable->ReadAt (&
-			      (machine->mainMemory
-			       [noffH.initData.virtualAddr]),
+
+      #ifdef CHANGED
+      ReadAtVirtual(executable, noffH.initData.virtualAddr, noffH.initData.size, 
+            noffH.initData.inFileAddr, pageTable, numPages); 
+      #else
+	  executable->ReadAt (&(machine->mainMemory[noffH.initData.virtualAddr]),
 			      noffH.initData.size, noffH.initData.inFileAddr);
+      #endif //CHANGED
       }
 
     #ifdef CHANGED
